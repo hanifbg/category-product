@@ -9,10 +9,10 @@ import (
 
 	"github.com/hanifbg/category-product/config"
 	"github.com/hanifbg/category-product/handler"
-	userHandler "github.com/hanifbg/category-product/handler/user"
+	categoryHandler "github.com/hanifbg/category-product/handler/category"
+	categoryRepo "github.com/hanifbg/category-product/repository/category"
 	"github.com/hanifbg/category-product/repository/migration"
-	userRepo "github.com/hanifbg/category-product/repository/user"
-	userService "github.com/hanifbg/category-product/service/user"
+	categoryService "github.com/hanifbg/category-product/service/category"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
@@ -54,15 +54,15 @@ func main() {
 
 	dbConnection := newDatabaseConnection(config)
 
-	userRepo := userRepo.NewGormDBRepository(dbConnection)
+	categoryRepo := categoryRepo.NewGormDBRepository(dbConnection)
 
-	userService := userService.NewService(userRepo)
+	categoryService := categoryService.NewService(categoryRepo)
 
-	userHandler := userHandler.NewHandler(userService)
+	categoryHandler := categoryHandler.NewHandler(categoryService)
 
 	e := echo.New()
 
-	handler.RegisterPath(e, userHandler)
+	handler.RegisterPath(e, categoryHandler)
 	go func() {
 		address := fmt.Sprintf("localhost:%d", config.AppPort)
 

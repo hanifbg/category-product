@@ -1,11 +1,11 @@
 package migration
 
 import (
-	"github.com/hanifbg/category-product/repository/user"
+	"github.com/hanifbg/category-product/repository/category"
 
 	"gorm.io/gorm"
 )
 
 func InitMigrate(db *gorm.DB) {
-	db.AutoMigrate(&user.User{})
+	db.AutoMigrate(&category.Category{})
 }

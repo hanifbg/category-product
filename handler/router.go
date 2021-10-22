@@ -1,18 +1,13 @@
 package handler
 
 import (
-	"github.com/hanifbg/category-product/handler/user"
-	"github.com/hanifbg/category-product/middleware"
+	"github.com/hanifbg/category-product/handler/category"
 
 	echo "github.com/labstack/echo/v4"
 )
 
-func RegisterPath(e *echo.Echo, userHandler *user.Handler) {
+func RegisterPath(e *echo.Echo, categoryHandler *category.Handler) {
 
 	userV1 := e.Group("v1")
-	userV1.POST("/", userHandler.UserHandler)
-
-	cobaV1 := e.Group("v1/auth")
-	cobaV1.Use(middleware.JWTMiddleware())
-	cobaV1.GET("/", userHandler.AuthUser)
+	userV1.POST("/", categoryHandler.UserHandler)
 }
