@@ -1,9 +1,9 @@
 package category
 
 type Service interface {
-	GetCategory() error
+	GetCategory() ([]Category, error)
 }
 
 type Repository interface {
-	GetCategory() error
+	GetCategory() ([]Category, error)
 }

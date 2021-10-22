@@ -2,6 +2,7 @@ package category
 
 import (
 	"github.com/hanifbg/category-product/common"
+	"github.com/hanifbg/category-product/handler/category/response"
 	"github.com/hanifbg/category-product/service/category"
 
 	echo "github.com/labstack/echo/v4"
@@ -18,10 +19,12 @@ func NewHandler(service category.Service) *Handler {
 }
 
 func (handler *Handler) UserHandler(c echo.Context) error {
-	err := handler.service.GetCategory()
+	category, err := handler.service.GetCategory()
 	if err != nil {
 		return c.JSON(common.NewErrorBusinessResponse(err))
 	}
 
-	return c.JSON(common.NewSuccessResponseWithoutData())
+	response := response.NewGetAllCategoryResponse(category)
+
+	return c.JSON(common.NewSuccessResponse(response))
 }

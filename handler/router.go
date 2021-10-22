@@ -9,5 +9,5 @@ import (
 func RegisterPath(e *echo.Echo, categoryHandler *category.Handler) {
 
 	userV1 := e.Group("v1")
-	userV1.POST("/", categoryHandler.UserHandler)
+	userV1.GET("/get_category", categoryHandler.UserHandler)
 }

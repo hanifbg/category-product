@@ -3,6 +3,7 @@ package category
 import (
 	"time"
 
+	"github.com/hanifbg/category-product/service/category"
 	"gorm.io/gorm"
 )
 
@@ -12,6 +13,18 @@ type Category struct {
 	UpdatedAt time.Time
 	DeletedAt *time.Time
 	Name      string `json:"name"  validate:"required"`
+}
+
+func (col *Category) ToCategory() category.Category {
+	var category category.Category
+
+	category.ID = col.ID
+	category.CreatedAt = col.CreatedAt
+	category.UpdatedAt = col.UpdatedAt
+	category.DeletedAt = col.DeletedAt
+	category.Name = col.Name
+
+	return category
 }
 
 type GormRepository struct {
@@ -25,7 +38,17 @@ func NewGormDBRepository(db *gorm.DB) *GormRepository {
 }
 
 //InsertUser Insert new User into storage
-func (repo *GormRepository) GetCategory() error {
+func (repo *GormRepository) GetCategory() ([]category.Category, error) {
+	var query []Category
 
-	return nil
+	err := repo.DB.Where("deleted_at IS NULL").Find(&query).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var category []category.Category
+	for _, value := range query {
+		category = append(category, value.ToCategory())
+	}
+	return category, nil
 }
