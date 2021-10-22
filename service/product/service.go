@@ -23,3 +23,13 @@ func (s *service) GetProduct(CategoryId int, param string) ([]Product, error) {
 
 	return category, nil
 }
+
+func (s *service) GetDetail(ProductId int) (Product, error) {
+
+	product, err := s.repository.GetDetail(ProductId)
+	if err != nil {
+		return Product{}, err
+	}
+
+	return product, nil
+}

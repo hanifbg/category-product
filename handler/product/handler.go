@@ -33,3 +33,14 @@ func (handler *Handler) ProductHandler(c echo.Context) error {
 
 	return c.JSON(common.NewSuccessResponse(response))
 }
+
+func (handler *Handler) DetailHandler(c echo.Context) error {
+	productId, _ := strconv.Atoi(c.Param("product_id"))
+
+	productDetail, err := handler.service.GetDetail(productId)
+	if err != nil {
+		return c.JSON(common.NewErrorBusinessResponse(err))
+	}
+
+	return c.JSON(common.NewSuccessResponse(productDetail))
+}

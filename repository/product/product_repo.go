@@ -47,7 +47,6 @@ func NewGormDBRepository(db *gorm.DB) *GormRepository {
 	}
 }
 
-//InsertUser Insert new User into storage
 func (repo *GormRepository) GetProduct(CategoryId int, param string) ([]product.Product, error) {
 	var query []Product
 	var err error
@@ -61,9 +60,24 @@ func (repo *GormRepository) GetProduct(CategoryId int, param string) ([]product.
 		return nil, err
 	}
 
-	var category []product.Product
+	var product []product.Product
 	for _, value := range query {
-		category = append(category, value.ToProduct())
+		product = append(product, value.ToProduct())
 	}
-	return category, nil
+	return product, nil
+}
+
+func (repo *GormRepository) GetDetail(ProductId int) (product.Product, error) {
+	var query Product
+
+	err := repo.DB.Where("category_id = ?", ProductId).Find(&query).Error
+
+	if err != nil {
+		return product.Product{}, err
+	}
+
+	var product product.Product
+	product = query.ToProduct()
+
+	return product, nil
 }
