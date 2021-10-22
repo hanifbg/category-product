@@ -48,10 +48,15 @@ func NewGormDBRepository(db *gorm.DB) *GormRepository {
 }
 
 //InsertUser Insert new User into storage
-func (repo *GormRepository) GetProduct(CategoryId int) ([]product.Product, error) {
+func (repo *GormRepository) GetProduct(CategoryId int, param string) ([]product.Product, error) {
 	var query []Product
+	var err error
+	if param == "" {
+		err = repo.DB.Where("category_id = ?", CategoryId).Find(&query).Error
+	} else {
+		err = repo.DB.Where("category_id = ? AND name like ?", CategoryId, "%"+param+"%").Find(&query).Error
+	}
 
-	err := repo.DB.Where("category_id = ?", CategoryId).Find(&query).Error
 	if err != nil {
 		return nil, err
 	}

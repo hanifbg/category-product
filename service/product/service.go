@@ -14,9 +14,9 @@ type CreateCategoryData struct {
 	Name string `validate:"required"`
 }
 
-func (s *service) GetProduct(CategoryId int) ([]Product, error) {
+func (s *service) GetProduct(CategoryId int, param string) ([]Product, error) {
 
-	category, err := s.repository.GetProduct(CategoryId)
+	category, err := s.repository.GetProduct(CategoryId, param)
 	if err != nil {
 		return []Product{}, err
 	}

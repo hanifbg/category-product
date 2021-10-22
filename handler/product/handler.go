@@ -22,7 +22,9 @@ func NewHandler(service product.Service) *Handler {
 
 func (handler *Handler) ProductHandler(c echo.Context) error {
 	categoryId, _ := strconv.Atoi(c.Param("category_id"))
-	product, err := handler.service.GetProduct(categoryId)
+	query := c.QueryParam("q")
+
+	product, err := handler.service.GetProduct(categoryId, query)
 	if err != nil {
 		return c.JSON(common.NewErrorBusinessResponse(err))
 	}
