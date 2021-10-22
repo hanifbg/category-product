@@ -13,7 +13,6 @@ type ConfigIPForwarding struct {
 	Port    string `mapstructure:"port"`
 }
 
-//AppConfig Application configuration
 type AppConfig struct {
 	AppPort        int    `mapstructure:"app_port"`
 	AppEnvironment string `mapstructure:"app_environment"`
@@ -28,7 +27,6 @@ type AppConfig struct {
 var lock = &sync.Mutex{}
 var appConfig *AppConfig
 
-//GetConfig Initiatilize config in singleton way
 func GetConfig() *AppConfig {
 	if appConfig != nil {
 		return appConfig
@@ -37,7 +35,6 @@ func GetConfig() *AppConfig {
 	lock.Lock()
 	defer lock.Unlock()
 
-	//re-check after locking
 	if appConfig != nil {
 		return appConfig
 	}
@@ -58,9 +55,8 @@ func initConfig() *AppConfig {
 	defaultConfig.DbPort = 3306
 	defaultConfig.DbUsername = "root"
 	defaultConfig.DbPassword = "1"
-	defaultConfig.DbName = "db_name"
+	defaultConfig.DbName = "alta_final"
 
-	//use this if .env file (dont forget to run "source PATH_TO/.env" example "source config/.env")
 	viper.AutomaticEnv()
 	viper.SetEnvPrefix("your")
 	viper.BindEnv("app_port")
@@ -76,23 +72,6 @@ func initConfig() *AppConfig {
 		log.Info("failed to extract config, will use default value")
 		return &defaultConfig
 	}
-
-	//use this for json check app.config.json for example
-	// viper.AddConfigPath(".")
-	// viper.SetConfigName("app.config")
-	// viper.SetConfigType("json")
-	// err := viper.ReadInConfig()
-	// if err == nil {
-	// 	fmt.Printf("Using config file: %s \n\n", viper.ConfigFileUsed())
-	// }
-	// finalConfig.AppPort = viper.GetString("server.port")
-	// finalConfig.AppEnvironment = viper.GetString("appEnv")
-	// finalConfig.DbDriver = viper.GetString("database.driver")
-	// finalConfig.DbAddress = viper.GetString("database.host")
-	// finalConfig.DbPort = viper.GetString("database.port")
-	// finalConfig.DbUsername = viper.GetString("database.username")
-	// finalConfig.DbPassword = viper.GetString("database.password")
-	// finalConfig.DbName = viper.GetString("database.dbname")
 
 	return &finalConfig
 }

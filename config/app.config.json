@@ -12,6 +12,6 @@
         "host": "127.0.0.1",
         "username": "root",
         "password": "1",
-        "dbname": "db_name"
+        "dbname": "alta_final"
     }
 }
