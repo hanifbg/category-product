@@ -1,7 +1,7 @@
 package migration
 
 import (
-	"GO_MOD_MODULE_NAME/repository/user"
+	"github.com/hanifbg/category-product/repository/user"
 
 	"gorm.io/gorm"
 )

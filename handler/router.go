@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"GO_MOD_MODULE_NAME/handler/user"
-	"GO_MOD_MODULE_NAME/middleware"
+	"github.com/hanifbg/category-product/handler/user"
+	"github.com/hanifbg/category-product/middleware"
 
 	echo "github.com/labstack/echo/v4"
 )
