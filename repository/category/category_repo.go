@@ -8,11 +8,11 @@ import (
 )
 
 type Category struct {
-	ID        uint
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time
-	Name      string `json:"name"  validate:"required"`
+	ID        uint       `gorm:"id;primaryKey;autoIncrement"`
+	CreatedAt time.Time  `gorm:"created_at"`
+	UpdatedAt time.Time  `gorm:"updated_at"`
+	DeletedAt *time.Time `gorm:"deleted_at"`
+	Name      string     `json:"name"  validate:"required"`
 }
 
 func (col *Category) ToCategory() category.Category {

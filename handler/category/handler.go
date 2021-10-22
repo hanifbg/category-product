@@ -18,7 +18,7 @@ func NewHandler(service category.Service) *Handler {
 	}
 }
 
-func (handler *Handler) UserHandler(c echo.Context) error {
+func (handler *Handler) CategoryHandler(c echo.Context) error {
 	category, err := handler.service.GetCategory()
 	if err != nil {
 		return c.JSON(common.NewErrorBusinessResponse(err))
