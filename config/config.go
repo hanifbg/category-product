@@ -55,7 +55,7 @@ func initConfig() *AppConfig {
 	defaultConfig.DbPort = 3306
 	defaultConfig.DbUsername = "root"
 	defaultConfig.DbPassword = "1"
-	defaultConfig.DbName = "alta_final"
+	defaultConfig.DbName = "db_name"
 
 	viper.AutomaticEnv()
 	viper.SetEnvPrefix("your")
