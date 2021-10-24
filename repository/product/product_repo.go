@@ -51,9 +51,9 @@ func (repo *GormRepository) GetProduct(CategoryId int, param string) ([]product.
 	var query []Product
 	var err error
 	if param == "" {
-		err = repo.DB.Where("category_id = ?", CategoryId).Find(&query).Error
+		err = repo.DB.Where("category_id = ? AND stock <> 0", CategoryId).Find(&query).Error
 	} else {
-		err = repo.DB.Where("category_id = ? AND name like ?", CategoryId, "%"+param+"%").Find(&query).Error
+		err = repo.DB.Where("category_id = ? AND name like ? AND stock <> 0", CategoryId, "%"+param+"%").Find(&query).Error
 	}
 
 	if err != nil {
