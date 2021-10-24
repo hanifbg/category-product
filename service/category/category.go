@@ -8,4 +8,5 @@ type Category struct {
 	UpdatedAt time.Time
 	DeletedAt *time.Time
 	Name      string
+	IsActive  bool
 }
