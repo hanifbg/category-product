@@ -1,5 +1,7 @@
 package product
 
+import serv "github.com/hanifbg/category-product/service"
+
 type service struct {
 	repository Repository
 }
@@ -29,6 +31,10 @@ func (s *service) GetDetail(ProductId int) (Product, error) {
 	product, err := s.repository.GetDetail(ProductId)
 	if err != nil {
 		return Product{}, err
+	}
+
+	if product.ID == 0 {
+		return Product{}, serv.ErrNotFound
 	}
 
 	return product, nil

@@ -70,14 +70,13 @@ func (repo *GormRepository) GetProduct(CategoryId int, param string) ([]product.
 func (repo *GormRepository) GetDetail(ProductId int) (product.Product, error) {
 	var query Product
 
-	err := repo.DB.Where("category_id = ?", ProductId).Find(&query).Error
+	err := repo.DB.Where("id = ?", ProductId).Find(&query).Error
 
 	if err != nil {
 		return product.Product{}, err
 	}
 
-	var product product.Product
-	product = query.ToProduct()
+	product := query.ToProduct()
 
 	return product, nil
 }
