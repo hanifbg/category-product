@@ -1,9 +1,9 @@
 package config
 
 import (
+	"fmt"
 	"sync"
 
-	"github.com/labstack/gommon/log"
 	"github.com/spf13/viper"
 )
 
@@ -13,6 +13,7 @@ type ConfigIPForwarding struct {
 	Port    string `mapstructure:"port"`
 }
 
+//AppConfig Application configuration
 type AppConfig struct {
 	AppPort        int    `mapstructure:"app_port"`
 	AppEnvironment string `mapstructure:"app_environment"`
@@ -27,6 +28,7 @@ type AppConfig struct {
 var lock = &sync.Mutex{}
 var appConfig *AppConfig
 
+//GetConfig Initiatilize config in singleton way
 func GetConfig() *AppConfig {
 	if appConfig != nil {
 		return appConfig
@@ -35,6 +37,7 @@ func GetConfig() *AppConfig {
 	lock.Lock()
 	defer lock.Unlock()
 
+	//re-check after locking
 	if appConfig != nil {
 		return appConfig
 	}
@@ -55,23 +58,24 @@ func initConfig() *AppConfig {
 	defaultConfig.DbPort = 3306
 	defaultConfig.DbUsername = "root"
 	defaultConfig.DbPassword = "1"
-	defaultConfig.DbName = "db_name"
+	defaultConfig.DbName = "alta_final"
 
-	viper.AutomaticEnv()
-	viper.SetEnvPrefix("your")
-	viper.BindEnv("app_port")
-	viper.BindEnv("app_environment")
-	viper.BindEnv("db_driver")
-	viper.BindEnv("db_address")
-	viper.BindEnv("db_port")
-	viper.BindEnv("db_username")
-	viper.BindEnv("db_password")
-	viper.BindEnv("db_name")
-	err := viper.Unmarshal(&finalConfig)
-	if err != nil {
-		log.Info("failed to extract config, will use default value")
-		return &defaultConfig
+	viper.AddConfigPath(".")
+	viper.AddConfigPath("./config")
+	viper.SetConfigName("app.config")
+	viper.SetConfigType("json")
+	err := viper.ReadInConfig()
+	if err == nil {
+		fmt.Printf("Using config file: %s \n\n", viper.ConfigFileUsed())
 	}
+	finalConfig.AppPort = viper.GetInt("server.port")
+	finalConfig.AppEnvironment = viper.GetString("appEnv")
+	finalConfig.DbDriver = viper.GetString("database.driver")
+	finalConfig.DbAddress = viper.GetString("database.host")
+	finalConfig.DbPort = viper.GetInt("database.port")
+	finalConfig.DbUsername = viper.GetString("database.username")
+	finalConfig.DbPassword = viper.GetString("database.password")
+	finalConfig.DbName = viper.GetString("database.dbname")
 
 	return &finalConfig
 }
